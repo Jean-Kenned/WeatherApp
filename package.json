@@ -1,0 +1,30 @@
+{
+  "name": "weatherapp",
+  "version": "1.0.0",
+  "description": "Weather WebSite",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jean-Kenned/WeatherApp.git"
+  },
+  "keywords": [
+    "Weather",
+    "Node"
+  ],
+  "author": "Jean Kenned",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jean-Kenned/WeatherApp/issues"
+  },
+  "homepage": "https://github.com/Jean-Kenned/WeatherApp#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "request": "^2.88.2"
+  }
+}
