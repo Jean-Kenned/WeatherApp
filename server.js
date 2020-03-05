@@ -1,29 +1,30 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const request = require('request');
+const express = require('express')
+const bodyParser = require('body-parser')
+const request = require('request')
+const operationsDB = require('./operationsDB.js')
 const app = express()
 
-const apiKey = '38004137bc9974687088514e5a6b4afd';
+const apiKey = '38004137bc9974687088514e5a6b4afd'
 
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 app.get('/', function (req, res) {
-  res.render('index', { weather: null, error: null });
+  res.render('index', { weather: null, error: null })
 })
 
 app.post('/', function (req, res) {
-  let city = req.body.city;
+  let city = req.body.city
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=pt_br&appid=${apiKey}`
 
   request(url, function (err, response, body) {
     if (err) {
-      res.render('index', { weather: null, error: 'Erro, por favor tente novamente' });
+      res.render('index', { weather: null, error: 'Erro, por favor tente novamente' })
     } else {
       let weather = JSON.parse(body)
       if (weather.main == undefined) {
-        res.render('index', { weather: null, error: 'Cidade não encontrada, por favor tente novamente' });
+        res.render('index', { weather: null, error: 'Cidade não encontrada, por favor tente novamente' })
       } else {
         let nameCity = weather.name
         let countryCode = weather.sys.country
@@ -47,13 +48,29 @@ app.post('/', function (req, res) {
           date: date,
           error: null
         });
+
+        let rowToHistorico = [
+          nameCity,
+          countryCode,
+          temperature,
+          description
+        ]
+
+        let rowToMaisPesquisadas = [
+          weather.id,
+          nameCity,
+          countryCode,
+        ]
+
+        operationsDB.insertIntoHistorico(rowToHistorico)
+        operationsDB.insertIntoMaisPesquisadas(rowToMaisPesquisadas)
       }
     }
   });
 })
 
 app.listen(3000, function () {
-  console.log('Escutando na porta 3000')
+  console.log('Escutando requisições na porta 3000')
 })
 
 const convertTimeStampToDate = (timestamp, timezone) => {
@@ -68,6 +85,6 @@ const convertTimeStampToDate = (timestamp, timezone) => {
   let minutes = date.getUTCMinutes() < 10 ? '0' + date.getUTCMinutes() : date.getUTCMinutes()
   let formattedTime = hours + ':' + minutes
 
-  let dataString = formattedDate + ', ' + formattedTime
-  return dataString
+  let dateString = formattedDate + ', ' + formattedTime
+  return dateString
 }
