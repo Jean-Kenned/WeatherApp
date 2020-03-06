@@ -43,8 +43,16 @@ const insertIntoMaisPesquisadas = (row) => {
 
 function selectHistorico(callback) {
   const sqlSelect = 'SELECT * from historico ORDER BY id DESC LIMIT 5'
+  const retorno = []
   conection.query(sqlSelect, function (err, results) {
-    return callback(results)
+    results.forEach(element => {
+      let time = element.created_at.toString();
+      let timeinParts = time.split(" ")
+      let timeString = timeinParts[2] + " " + timeinParts[1] + ' às ' + timeinParts[4]
+      retorno.push({ ...element, date: timeString })
+    });
+
+    return callback(retorno)
   })
 
 }

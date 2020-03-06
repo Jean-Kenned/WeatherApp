@@ -45,7 +45,8 @@
       <div class="titleTop">Últimas pesquisas</div>
       <%if(lastestSearches!==null&&lastestSearches.length!==0){%>
           <% lastestSearches.forEach(function (search){ %>
-           <div class="pesquisadas"><%= search.name %>, <%= search.country %>, <%= search.temperature %>ºC, <%= search.description %>. </div>
+           <div class="pesquisadas"><%= search.name %>, <%= search.country %>,
+             <%= search.temperature %>ºC com <%= search.description %> em <%= search.date %> </div>
           <% }); %>
       <% } else{%>
           <div class="alertRegistros alert alert-info">Não há registros...</div>
