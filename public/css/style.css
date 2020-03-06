@@ -91,3 +91,30 @@ fieldset {
   border-color: #F2F2F2;
   border-radius: 10px;
 }
+.topCities {
+  padding: 5px;
+  display: inline-block;
+  border-width: 1px;
+  border-color: #0275d8;
+  border-style: solid;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color:#EFF9FF; 
+  font-weight: bold;
+}
+.titleTop {
+  margin-bottom: 10px;
+  margin-top: 15px;
+  color: gray;
+  
+}
+.pesquisadas {
+  font-size: 16px;
+  padding: 4px;
+  font-family: 'Courier New', Courier, monospace
+  
+}
+.alertRegistros{
+  color: '#DADADA';
+  font-size: 14px;
+}

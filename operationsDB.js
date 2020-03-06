@@ -39,10 +39,27 @@ const insertIntoMaisPesquisadas = (row) => {
     console.log(err)
   }
 
+}
+
+function selectHistorico(callback) {
+  const sqlSelect = 'SELECT * from historico ORDER BY id DESC LIMIT 5'
+  conection.query(sqlSelect, function (err, results) {
+    return callback(results)
+  })
+
+}
+
+function selectMaisPesquisadas(callback) {
+  const sqlSelect = 'SELECT * from maispesquisadas ORDER BY num_pesquisas DESC LIMIT 5'
+  conection.query(sqlSelect, function (err, results) {
+    return callback(results)
+  })
 
 }
 
 module.exports = {
   insertIntoHistorico,
-  insertIntoMaisPesquisadas
+  insertIntoMaisPesquisadas,
+  selectHistorico,
+  selectMaisPesquisadas
 }

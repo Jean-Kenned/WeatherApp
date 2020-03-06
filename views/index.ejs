@@ -42,7 +42,23 @@
       </fieldset>
     </div>
     <div class="painel2">
-      
+      <div class="titleTop">Últimas pesquisas</div>
+      <%if(lastestSearches!==null&&lastestSearches.length!==0){%>
+          <% lastestSearches.forEach(function (search){ %>
+           <div class="pesquisadas"><%= search.name %>, <%= search.country %>, <%= search.temperature %>ºC, <%= search.description %>. </div>
+          <% }); %>
+      <% } else{%>
+          <div class="alertRegistros alert alert-info">Não há registros...</div>
+      <% } %>
+      <div class="titleTop">Top cidades mais pesquisadas</div>
+      <%if(mostSearched!==null&&mostSearched.length!==0){%>
+        <% mostSearched.forEach(function (city){ %>
+           <div class="topCities"><%= city.name %>, <%= city.country %></div>
+        <% }); %>
+      <% } else{%>
+          <div class="alertRegistros alert alert-info">Não há registros...</div>
+      <% } %>
+
     </div>
   </body>
 </html>

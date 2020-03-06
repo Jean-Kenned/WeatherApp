@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const operationsDB = require('./operationsDB.js')
+const async = require('async')
 const app = express()
 
 const apiKey = '38004137bc9974687088514e5a6b4afd'
@@ -11,8 +12,31 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 app.get('/', function (req, res) {
-  res.render('index', { weather: null, error: null })
-})
+  async.series([
+    selectHistory,
+    selectMostSearched
+  ], function (err, results) {
+    res.render('index', { weather: null, error: null, lastestSearches: results[0], mostSearched: results[1] })
+  })
+
+}
+)
+
+function selectHistory(callback) {
+  operationsDB.selectHistorico(function (result) {
+    callback(null, result)
+  })
+
+}
+
+
+function selectMostSearched(callback) {
+  operationsDB.selectMaisPesquisadas(function (result) {
+    callback(null, result)
+  })
+
+}
+
 
 app.post('/', function (req, res) {
   let city = req.body.city
@@ -20,12 +44,36 @@ app.post('/', function (req, res) {
 
   request(url, function (err, response, body) {
     if (err) {
-      res.render('index', { weather: null, error: 'Erro, por favor tente novamente' })
+      async.series([
+        selectHistory,
+        selectMostSearched
+
+      ], function (err, results) {
+        res.render('index', {
+          weather: null,
+          lastestSearches: results[0],
+          mostSearched: results[1],
+          error: 'Cidade não encontrada, por favor tente novamente'
+        });
+      })
+
     } else {
       let weather = JSON.parse(body)
       if (weather.main == undefined) {
-        res.render('index', { weather: null, error: 'Cidade não encontrada, por favor tente novamente' })
+        async.series([
+          selectHistory,
+          selectMostSearched
+
+        ], function (err, results) {
+          res.render('index', {
+            weather: null,
+            lastestSearches: results[0],
+            mostSearched: results[1],
+            error: 'Cidade não encontrada, por favor tente novamente'
+          });
+        })
       } else {
+
         let nameCity = weather.name
         let countryCode = weather.sys.country
         let temperature = weather.main.temp
@@ -36,18 +84,6 @@ app.post('/', function (req, res) {
         let iconWeather = urlIcon[0] + weather.weather[0].icon + urlIcon[1]
         let date = convertTimeStampToDate(weather.dt, weather.timezone)
 
-        res.render('index', {
-          weather: weather,
-          city: nameCity,
-          country: countryCode,
-          temperature: temperature,
-          humidity: humidity,
-          wind: wind,
-          description: description,
-          icon: iconWeather,
-          date: date,
-          error: null
-        });
 
         let rowToHistorico = [
           nameCity,
@@ -64,6 +100,28 @@ app.post('/', function (req, res) {
 
         operationsDB.insertIntoHistorico(rowToHistorico)
         operationsDB.insertIntoMaisPesquisadas(rowToMaisPesquisadas)
+
+
+        async.series([
+          selectHistory,
+          selectMostSearched
+
+        ], function (err, results) {
+          res.render('index', {
+            weather: weather,
+            city: nameCity,
+            country: countryCode,
+            temperature: temperature,
+            humidity: humidity,
+            wind: wind,
+            description: description,
+            icon: iconWeather,
+            date: date,
+            lastestSearches: results[0],
+            mostSearched: results[1],
+            error: null
+          });
+        })
       }
     }
   });
