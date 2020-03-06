@@ -17,3 +17,25 @@
     * **Schema**: weather_app
     * **User**: root
     * **Password**: 12345
+
+
+
+## Instalação
+
+  Dentro da pasta do projeto, execute os seguintes comandos:
+
+ - Instalar módulos:
+
+  `npm install` 
+
+ -  Executar servidor:
+
+  `node server.js`
+
+ O servidor estará recebendo requisições na porta 3000
+
+ - Executar aplicação:
+
+  Acesse através do navegador o endereço:
+
+  `http://localhost:3000`
