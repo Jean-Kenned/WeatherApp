@@ -57,7 +57,8 @@ fieldset {
 }
 .fontSubTitle {
   color: '#DADADA';
-  font-size:12px;
+  font-size:13px;
+  font-family: 'Courier New', Courier, monospace
 }
 .icon{
   float: left;
@@ -77,6 +78,7 @@ fieldset {
 }
 .extraInformation {
   float: right;
+  
 }
 .result {
   margin-top: 50px;
@@ -106,6 +108,10 @@ fieldset {
   margin-bottom: 10px;
   margin-top: 15px;
   color: gray;
+  font-weight:300;
+  color: #4b545f;
+  font-family: Open Sans,Verdana;
+  font-size: 25px;
   
 }
 .pesquisadas {
@@ -117,4 +123,7 @@ fieldset {
 .alertRegistros{
   color: '#DADADA';
   font-size: 14px;
+}
+.textExtraInformation {
+  font-family: 'Courier New', Courier, monospace
 }
