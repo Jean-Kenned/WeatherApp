@@ -54,7 +54,7 @@ app.post('/', function (req, res) {
           lastestSearches: results[0],
           mostSearched: results[1],
           error: 'Cidade não encontrada, por favor tente novamente'
-        });
+        })
       })
 
     } else {
@@ -70,7 +70,7 @@ app.post('/', function (req, res) {
             lastestSearches: results[0],
             mostSearched: results[1],
             error: 'Cidade não encontrada, por favor tente novamente'
-          });
+          })
         })
       } else {
 
@@ -120,11 +120,11 @@ app.post('/', function (req, res) {
             lastestSearches: results[0],
             mostSearched: results[1],
             error: null
-          });
+          })
         })
       }
     }
-  });
+  })
 })
 
 app.listen(3000, function () {
