@@ -13,7 +13,7 @@
 
 
  - Informações adicionais:
-    * Hostname: localhost
-    * Schema: weather_app
-    * User: root
-    * Password: 12345
+    * **Hostname**: localhost
+    * **Schema**: weather_app
+    * **User**: root
+    * **Password**: 12345
